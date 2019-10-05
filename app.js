@@ -44,16 +44,18 @@ app.post('/post_tweet', function (req, res) {
     });
 });
 
-app.post('/post_favorites/:id', function (req, res) {
-    console.log("ID for the post to mark as fav", req.params.id);
+app.post('/post_favorites', function (req, res) {
+    //console.log("ID for the post to mark as fav", req.params.id);
 
-    var postID = req.params.id;
+    var postID = req.body;
 
-    if (postID == null || postID == undefined || isNaN(postID) ) {
+    if (postID.tweet_id == null || postID.tweet_id == undefined ) {
         return res.status(400).send("Bad Request: Invalid Post ID");
+    } else  if (!postID || !postID.hasOwnProperty('tweet_id')) {
+        return res.status(400).send({error_message: "tweet_id missing in body"});
     }
 
-    twitter_client.post('favorites/create', {id: postID}, function (error, tweet, response) {
+    twitter_client.post('favorites/create', {id: postID.tweet_id}, function (error, tweet, response) {
 //        console.log('Response', response);
         if (error) {
             if(error.length>0) {
@@ -73,16 +75,17 @@ app.post('/post_favorites/:id', function (req, res) {
     
 });
 
-app.post('/post_favoritesDestroy/:id', function (req, res) {
+app.post('/post_favoritesDestroy', function (req, res) {
     console.log("ID for the post to mark as fav", req.params.id);
 
-    var postID = req.params.id;
-
-    if (postID == null || postID == undefined || isNaN(postID) ) {
+    var postID = req.body;
+    if (postID.tweet_id == null || postID.tweet_id == undefined ) {
         return res.status(400).send("Bad Request: Invalid Post ID");
+    } else  if (!postID || !postID.hasOwnProperty('tweet_id')) {
+        return res.status(400).send({error_message: "tweet_id missing in body"});
     }
 
-    twitter_client.post('favorites/destroy', {id: postID}, function (error, tweet, response) {
+    twitter_client.post('favorites/destroy', {id: postID.tweet_id}, function (error, tweet, response) {
 //        console.log('Response', response);
         if (error) {
             if(error.length>0) {
