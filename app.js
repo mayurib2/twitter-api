@@ -122,7 +122,7 @@ app.get('/fav_list', function (req, res) {
 
     twitter_client.get('favorites/list', {}, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
+            //console.log(tweets);
             return res.status(200).json(tweets);
         } else {
             console.log("Error ", error);
@@ -143,7 +143,7 @@ app.get('/searchTweets/:query', function (req, res) {
         return res.status(500).send({error : JSON.stringify(error)});
       }
       if (!error) {
-        console.log(tweets.statuses);
+        //console.log(tweets.statuses);
         return res.status(200).json(tweets.statuses);
       }
     });
