@@ -75,9 +75,10 @@ app.post('/post_favorites', function (req, res) {
 
             console.log("Got error in post fav", error);
             return res.status(500).send({error: JSON.stringify(error)});
+        } else {
+            console.log(tweet);  // Tweet body.
+            return res.status(200).json(tweet);    
         }
-        console.log(tweet);  // Tweet body.
-        return res.status(200).json(tweet);
     });
 
     
