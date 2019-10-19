@@ -3,16 +3,22 @@ let cors = require('cors');
 require('dotenv').config();
 const app = express();
 let Twitter = require('twitter');
+
+
 const twitter_client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_API_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_API_SECRET_KEY,
     access_token_key: process.env.TWITTER_ACCESS_TOKEN,
     access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-});
+}); 
  
 app.use(express.json());
 app.use(cors())
-
+//Define request response in root URL (/)
+app.get('/', function (req, res) {
+    res.send('Hello World')
+})
+  
 app.get('/recent_tweets', function (req, res) {
     console.log(req.query);
     console.log("Query param = ", req.query['twitter_screen_name']);
