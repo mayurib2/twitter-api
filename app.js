@@ -9,7 +9,7 @@ const twitter_client = new Twitter({
     access_token_key: process.env.TWITTER_ACCESS_TOKEN,
     access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
-
+ 
 app.use(express.json());
 app.use(cors())
 
@@ -19,7 +19,7 @@ const getResentTweets = function (req, res) {
     let params = {screen_name: req.query['twitter_screen_name']};
     twitter_client.get('statuses/home_timeline', params, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
+            //console.log(tweets);
             return res.status(200).json(tweets);
         } else {
             console.log("Error ", error);
@@ -46,6 +46,8 @@ const postTweet = function (req, res) {
 }
 app.post('/post_tweet', postTweet);
 
+//Rashmi Sarode
+//post_favorites api will like the tweet
 const postFavTweet = function (req, res) {
     //console.log("ID for the post to mark as fav", req.params.id);
 
@@ -77,6 +79,9 @@ const postFavTweet = function (req, res) {
 }
 app.post('/post_favorites', postFavTweet);
 
+
+//Rashmi Sarode
+//post_favoritesDestroy api will unlike the tweet
 const postFavDestroy = function (req, res) {
     console.log("ID for the post to mark as fav", req.params.id);
 
@@ -108,8 +113,9 @@ const postFavDestroy = function (req, res) {
 }
 app.post('/post_favoritesDestroy', postFavDestroy);
 
+//Rashmi Sarode
+//To get the count of tweet likes
 const getFavList = function (req, res) {
-
     twitter_client.get('favorites/list', {}, function (error, tweets, response) {
         if (!error) {
             console.log(tweets);
@@ -119,31 +125,62 @@ const getFavList = function (req, res) {
             return res.status(500).send({error: JSON.stringify(error)});
         }
     });
-
 }
+
 app.get('/fav_list', getFavList);
 
-app.get('/retweets/:id', function (req, res) {
-    var retweetid = req.params.id;
-    console.log(req.params.id);
-    twitter_client.get('statuses/retweets', {id : retweetid}, function(error, tweets, response) {
+//Sneha Patil
+//To search the tweets based on user input
+app.get('/searchTweets/:query', function (req, res) {
+    var params = req.params.query;
+    console.log(params);
+    twitter_client.get('search/tweets', {q: params}, function(error, tweets, response) {
       if(error){
         console.log(error);
         return res.status(500).send({error : JSON.stringify(error)});
       }
       if (!error) {
-        console.log(tweets);  
+        console.log(tweets.statuses);
+        return res.status(200).json(tweets.statuses);
+      }
+    });
+  })
+
+//Sneha Patil
+//To get the specific tweet by TweetId
+app.get('/tweet', function (req, res) {
+      var id = req.query.id;
+      console.log(req.query.id);
+      twitter_client.get('statuses/show/'+ id, function(error, tweets, response) {
+        if(error){
+          console.log(error);
+          return res.status(500).send({error : JSON.stringify(error)});
+        }
+        if (!error) {
+          return res.status(200).json(tweets);
+        }
+      });
+})
+  
+  //Sneha Patil
+//To delete the tweet  
+app.post('/destroyTweet/:id', function (req, res) {
+    const id= req.params.id;
+    twitter_client.post('statuses/destroy/'+ id, function(error, tweets, response) {
+      if(error){
+        console.log(error);
+        return res.status(500).send({error : JSON.stringify(error)});
+      }
+      if (!error) {
         return res.status(200).json(tweets);
       }
     });
 })
 
+
 app.listen(3001, function () {
     console.log('Twitter Ninjas app listening on port 3001!');
 });
-
-
-
 
 module.exports = {
     getResentTweets,
@@ -151,4 +188,3 @@ module.exports = {
     getFavList,
     postFavDestroy
 }
-
