@@ -18,7 +18,9 @@ app.use(cors())
 app.get('/', function (req, res) {
     res.send('Hello World')
 })
-  
+
+//Mayuri Bhise
+//To get the recent tweets
 app.get('/recent_tweets', function (req, res) {
     console.log(req.query);
     console.log("Query param = ", req.query['twitter_screen_name']);
@@ -34,6 +36,8 @@ app.get('/recent_tweets', function (req, res) {
     });
 });
 
+//Mayuri Bhise
+//To post a tweet
 app.post('/post_tweet', function (req, res) {
     console.log("REQUEST BODY ", req.body);
     if (!req.body || !req.body.hasOwnProperty('tweet_text')) {
@@ -183,6 +187,52 @@ app.post('/destroyTweet/:id', function (req, res) {
 })
   
   
+ //Indrayani Bhalerao
+ //To Retweet a tweet
+ app.post('/retweet/:id', function (req, res) {
+    const id= req.params.id;
+    twitter_client.post('statuses/retweet/'+ id, function(error, tweets, response) {
+    if(error){
+        console.log(error);
+        return res.status(500).send({error : JSON.stringify(error)});
+      }
+      if (!error) {
+        return res.status(200).json(tweets);
+      } 
+    });
+})
+
+//Indrayani Bhalerao
+//To Unretweet a tweet
+app.post('/unretweet/:id', function (req, res) {
+    const id= req.params.id;
+    twitter_client.post('statuses/unretweet/'+ id, function(error, tweets, response) {
+      if(error){
+        console.log(error);
+        return res.status(500).send({error : JSON.stringify(error)});
+      }
+      if (!error) {
+        return res.status(200).json(tweets);
+      }
+    });
+})
+
+//Indrayani Bhalerao
+//To get most recent retweets of the tweet specified by id
+app.get('/retweets/:id', function (req, res) {
+    var retweetid = req.params.id;
+    console.log(req.params.id);
+    twitter_client.get('statuses/retweets', {id:retweetid}, function(error, tweets, response) {
+      if(error){
+        console.log(error);
+        return res.status(500).send({error : JSON.stringify(error)});
+      }
+      if (!error) {
+        console.log(tweets);  
+        return res.status(200).json(tweets);
+      }
+    });
+  })
 
 
 
