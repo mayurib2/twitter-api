@@ -92,7 +92,7 @@ app.post('/post_favorites', function (req, res) {
 //Rashmi Sarode
 //post_favoritesDestroy api will unlike the tweet
 app.post('/post_favoritesDestroy', function (req, res) {
-    console.log("ID for the post to mark as fav", req.params.id);
+    //console.log("ID for the post to mark as fav", req.params.id);
 
     var postID = req.body;
     if (postID.tweet_id == null || postID.tweet_id == undefined ) {

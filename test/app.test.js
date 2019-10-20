@@ -83,9 +83,9 @@ it('Check the Statuscode for post Fav API as Valid ID', function (done) {
     "tweet_id": "1182801873054552064"
   })
     .then((res) => {
-      //console.log(`statusCode: ${res.statusCode}`)
+      //console.log(`statusCode: ${res.status}`)
       //console.log(res)
-      expect(res.statusCode).to.equal(200);
+      expect(res.status).to.equal(200);
       done();
     })
     .catch((error) => {
@@ -108,7 +108,7 @@ it('Check the Statuscode for post destroy Fav API as Valid ID', function (done) 
     "tweet_id": "1182801873054552064"
   })
     .then((res) => {
-      expect(res.statusCode).to.equal(200);
+      expect(res.status).to.equal(200);
       done();
     })
     .catch((error) => {
