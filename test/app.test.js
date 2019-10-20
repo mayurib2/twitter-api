@@ -39,19 +39,7 @@ it('Check the Statuscode for searchTweet API with "health" as the parameter', fu
   });
 });
 
-it('Check the Statuscode for destroyTweet API with incorrect id', function (done) {
-  request('http://localhost:3001/destroyTweet/1', function (error, response, body) {
-
-    //console.log(response.statusCode);
-    expect(response.statusCode).to.equal(144);    
-    
-    const responseText = response.body;   
-    expect(responseText).to.equal('No status found with that ID.');
-    done();
-  });
-});
-
-it('Check the Statuscode for destroyTweet API with incorrect id', function (done) {
+it('Check the Statuscode for destroyTweet API with invalid id', function (done) {
   request('http://localhost:3001/destroyTweet/abc', function (error, response, body) {
 
     //console.log(response.statusCode);
