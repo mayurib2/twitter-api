@@ -14,26 +14,47 @@ require("../app.js")
 }); */
 
 
-it('Check the Statuscode for searchTweet API with "health" as the parameter', function (done) {
-  request('http://localhost:3001/searchTweets/health', function (error, response, body) {
+it('Check the searchTweet API with "snehaninja" as the parameter', function (done) {
+  request('http://localhost:3001/searchTweets/snehaninja272', function (error, response, body) {
+    //console.log(response.body);
     expect(response.statusCode).to.equal(200);
+
+    const bodyJson = JSON.parse(response.body)
+    expect(bodyJson.length).to.be.above(0);
+    expect(bodyJson[0].text).to.include('snehaninja272');    
+    expect(bodyJson[0].retweeted).to.be.false;
+    expect(bodyJson[0].favorite_count).to.equal(0);
     done();
   });
 });
 
-it('Check the Statuscode for searchTweet API with "snehaninja" as the parameter', function (done) {
-  request('http://localhost:3001/searchTweets/snehaninja', function (error, response, body) {
-    //console.log(response.body);
+it('Check the Statuscode for searchTweet API with "health" as the parameter', function (done) {
+  request('http://localhost:3001/searchTweets/health', function (error, response, body) {
+    
     expect(response.statusCode).to.equal(200);
+
     const bodyJson = JSON.parse(response.body)
     expect(bodyJson.length).to.be.above(0);
-    expect(bodyJson[0].text).to.include('snehaninja');
     done();
   });
 });
 
 it('Check the Statuscode for destroyTweet API with incorrect id', function (done) {
   request('http://localhost:3001/destroyTweet/1', function (error, response, body) {
+
+    //console.log(response.statusCode);
+    expect(response.statusCode).to.equal(144);    
+    
+    const responseText = response.body;   
+    expect(responseText).to.equal('No status found with that ID.');
+    done();
+  });
+});
+
+it('Check the Statuscode for destroyTweet API with incorrect id', function (done) {
+  request('http://localhost:3001/destroyTweet/abc', function (error, response, body) {
+
+    //console.log(response.statusCode);
     expect(response.statusCode).to.equal(404);
     done();
   });
@@ -87,8 +108,6 @@ it('Check the Statuscode for post destroy Fav API as Valid ID', function (done) 
     "tweet_id": "1182801873054552064"
   })
     .then((res) => {
-      console.log(`statusCode: ${res.statusCode}`)
-      console.log(res)
       expect(res.statusCode).to.equal(200);
       done();
     })
@@ -105,8 +124,6 @@ it('Check the Statuscode for Retweeting a Tweet with Valid TweetId', function (d
     "tweet_id": "1185715761840443392"
   })
     .then((res) => {
-      console.log(`statusCode: ${res.statusCode}`)
-      console.log(res)
       expect(res.statusCode).to.equal(200);
       done();
     })

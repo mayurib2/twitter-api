@@ -80,7 +80,7 @@ app.post('/post_favorites', function (req, res) {
             console.log("Got error in post fav", error);
             return res.status(500).send({error: JSON.stringify(error)});
         } else {
-            console.log(tweet);  // Tweet body.
+            // Tweet body.
             return res.status(200).json(tweet);    
         }
     });
@@ -175,6 +175,9 @@ app.get('/tweet', function (req, res) {
 //To delete the tweet  
 app.post('/destroyTweet/:id', function (req, res) {
     const id= req.params.id;
+    if (id == null || id == undefined ) {
+      return res.status(400).send("Bad Request: Invalid Tweet Id");
+    }
     twitter_client.post('statuses/destroy/'+ id, function(error, tweets, response) {
       if(error){
         console.log(error);
