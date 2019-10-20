@@ -82,3 +82,101 @@ it('Check the Statuscode for post Fav API as Valid ID', function (done) {
 });
 
 
+it('Check the Statuscode for Retweeting a Tweet with Valid TweetId', function (done) {
+
+  axios.post('http://localhost:3001/retweet/:id', {
+    "tweet_id": "1185715761840443392"
+  })
+    .then((res) => {
+      console.log(`statusCode: ${res.statusCode}`)
+      console.log(res)
+      expect(res.statusCode).to.equal(200);
+      done();
+    })
+    .catch((error) => {
+      console.error(error)
+      done();
+    })
+
+});
+
+
+it('Check the Statuscode for Retweeting a Tweet with Invalid TweetId', function (done) {
+
+  var objJson = {
+    tweet_id: 1111111111111
+  }
+  var options = {
+    method: 'POST',
+    body: JSON.stringify(objJson)
+  }
+
+  request('http://localhost:3001/retweet/:id', options, function (error, response, body) {
+    expect(response.statusCode).to.equal(500);
+    //console.log(response)
+    const responseText = response.body
+    expect(responseText).to.equal('No status found with that ID');
+    done();
+  });
+});
+
+
+it('Check the Statuscode for Retweeting a Tweet which has already been Retweeted by the user', function (done) {
+
+  var objJson = {
+    tweet_id: 1185715761840443392
+  }
+  var options = {
+    method: 'POST',
+    body: JSON.stringify(objJson)
+  }
+
+  request('http://localhost:3001/retweet/:id', options, function (error, response, body) {
+    expect(response.statusCode).to.equal(500);
+    //console.log(response)
+    const responseText = response.body
+    expect(responseText).to.equal('You have already retweeted this Tweet');
+    done();
+  });
+});
+
+
+it('Check the Statuscode for unRetweeting a Tweet which is retweeted by the user', function (done) {
+
+  axios.post('http://localhost:3001/unretweet/:id', {
+    "tweet_id": "1185715761840443392"
+  })
+    .then((res) => {
+      console.log(`statusCode: ${res.statusCode}`)
+      console.log(res)
+      expect(res.statusCode).to.equal(200);
+      done();
+    })
+    .catch((error) => {
+      console.error(error)
+      done();
+    })
+
+});
+
+
+it('Check the Statuscode for trying to unRetweet a Tweet which is not Retweeted by the user', function (done) {
+
+  var objJson = {
+    tweet_id: 1185715761840443392
+  }
+  var options = {
+    method: 'POST',
+    body: JSON.stringify(objJson)
+  }
+
+  request('http://localhost:3001/unretweet/:id', options, function (error, response, body) {
+    expect(response.statusCode).to.equal(500);
+    //console.log(response)
+    const responseText = response.body
+    expect(responseText).to.equal('No status found with that ID');
+    done();
+  });
+});
+
+
