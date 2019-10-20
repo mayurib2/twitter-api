@@ -111,10 +111,10 @@ app.post('/post_favoritesDestroy', function (req, res) {
                 }    
             }
 
-            console.log("Got error in post fav", error);
+            //console.log("Got error in post fav", error);
             return res.status(500).send({error: JSON.stringify(error)});
         }
-        console.log(tweet);  // Tweet body.
+        //console.log(tweet);  // Tweet body.
         return res.status(200).json(tweet);
     });
 
@@ -130,7 +130,7 @@ app.get('/fav_list', function (req, res) {
             //console.log(tweets);
             return res.status(200).json(tweets);
         } else {
-            console.log("Error ", error);
+            //console.log("Error ", error);
             return res.status(500).send({error: JSON.stringify(error)});
         }
     });
@@ -231,7 +231,7 @@ app.get('/retweets/:id', function (req, res) {
         return res.status(500).send({error : JSON.stringify(error)});
       }
       if (!error) {
-        console.log(tweets);  
+        //console.log(tweets);  
         return res.status(200).json(tweets);
       }
     });

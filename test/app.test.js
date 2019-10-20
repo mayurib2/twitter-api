@@ -83,8 +83,8 @@ it('Check the Statuscode for post Fav API as Valid ID', function (done) {
     "tweet_id": "1182801873054552064"
   })
     .then((res) => {
-      console.log(`statusCode: ${res.statusCode}`)
-      console.log(res)
+      //console.log(`statusCode: ${res.statusCode}`)
+      //console.log(res)
       expect(res.statusCode).to.equal(200);
       done();
     })
@@ -128,7 +128,7 @@ it('Check the Statuscode for Retweeting a Tweet with Valid TweetId', function (d
       done();
     })
     .catch((error) => {
-      console.error(error)
+      //console.error(error)
       done();
     })
 
@@ -182,12 +182,12 @@ it('Check the Statuscode for unRetweeting a Tweet which is retweeted by the user
   })
     .then((res) => {
       console.log(`statusCode: ${res.statusCode}`)
-      console.log(res)
+      //console.log(res)
       expect(res.statusCode).to.equal(200);
       done();
     })
     .catch((error) => {
-      console.error(error)
+      //console.error(error)
       done();
     })
 
