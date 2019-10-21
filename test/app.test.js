@@ -6,31 +6,37 @@ const axios = require('axios'); // for simplified post requests
 
 require("../app.js")
 
-/* it('Main page content', function (done) {
-  request('http://localhost:3001', function (error, response, body) {
-    expect(body).to.equal('Hello World');
+
+it('Check postTweet API working with as parameter', function (done) {
+  var objJson = {
+    tweet_text: "test 22322678"
+  };
+  var options = {
+    method: 'POST',
+    body: JSON.stringify(objJson)
+  };
+
+  request.post({
+    headers: {'content-type' : 'application/json'},
+    url:     'http://localhost:3001/post_tweet',
+    body:    JSON.stringify(objJson)
+  }, function(error, response, body){
+    console.log('response = ',response);
+    expect(response.statusCode).to.equal(200);
+    const bodyJson = JSON.parse(response.body);
+    expect(bodyJson.created_at).to.not.be.null;
     done();
   });
-}); */
-
-it('Check postTweet API working', function(done) {
-  request('http://localhost:3001/post_tweet' function (error, response, body) {
-    expect(response.statusCode).to.equal(200);
-
-    const bodyJson = JSON.parse(response.body);
-    expect(bodyJson.length).to.be.above(0);
-    done();
-  })
 });
 
 it('Check get recent tweets are working', function(done) {
-  request('http://localhost:3001/recent_tweets' function (error, response, body) {
+  request('http://localhost:3001/recent_tweets', function (error, response, body) {
     expect(response.statusCode).to.equal(200);
 
     const bodyJson = JSON.parse(response.body);
     expect(bodyJson.length).to.be.above(0);
     done();
-  })
+  });
 });
 
 
