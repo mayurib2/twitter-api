@@ -13,13 +13,33 @@ require("../app.js")
   });
 }); */
 
+it('Check postTweet API working', function(done) {
+  request('http://localhost:3001/post_tweet' function (error, response, body) {
+    expect(response.statusCode).to.equal(200);
+
+    const bodyJson = JSON.parse(response.body);
+    expect(bodyJson.length).to.be.above(0);
+    done();
+  })
+});
+
+it('Check get recent tweets are working', function(done) {
+  request('http://localhost:3001/recent_tweets' function (error, response, body) {
+    expect(response.statusCode).to.equal(200);
+
+    const bodyJson = JSON.parse(response.body);
+    expect(bodyJson.length).to.be.above(0);
+    done();
+  })
+});
+
 
 it('Check the searchTweet API with "snehaninja" as the parameter', function (done) {
   request('http://localhost:3001/searchTweets/snehaninja272', function (error, response, body) {
     //console.log(response.body);
     expect(response.statusCode).to.equal(200);
 
-    const bodyJson = JSON.parse(response.body)
+    const bodyJson = JSON.parse(response.body);
     expect(bodyJson.length).to.be.above(0);
     expect(bodyJson[0].text).to.include('snehaninja272');    
     expect(bodyJson[0].retweeted).to.be.false;
